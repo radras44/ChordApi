@@ -1,13 +1,12 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
-import { FretRange } from "src/utils/conversor/interfaces/conversorDefs";
 
 export type VoicingConfigDocument = HydratedDocument<VoicingConfig>
 
 @Schema()
 export class VoicingConfig {
-    @Prop({name : "id",required : true})
-    id : string
+    @Prop({name : "id",required : true,unique : true})
+    configID : string
     @Prop({name: "tune",required:true})
     tune : string
     @Prop({name : "chord",required:true})
@@ -18,6 +17,8 @@ export class VoicingConfig {
     vFretSize : number    
     @Prop({name : "omits"})
     omits : string
+    @Prop({name : "avoidNotes"})
+    avoidNotes : boolean
 }
 
 export const VoicingConfigSchema = SchemaFactory.createForClass(VoicingConfig)

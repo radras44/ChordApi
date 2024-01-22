@@ -6,6 +6,7 @@ export class Conversor {
     intervalSTs : {[key : string] : number}
     chordSymbols : ChordSymbolsJSON
     chordSymbolList : {[key : string] : ChordSymbol} 
+    avoidNotes : {[key : string] : string[]}
     chordLayoutSortedKeys : string[]
     constructor () {
         const theory = require(path.join(__dirname,"..","assets","theory.json"))
@@ -18,6 +19,7 @@ export class Conversor {
         })
   
         this.notes = theory["notes"]
+        this.avoidNotes = theory["avoidNotes"]
         this.intervalSTs = theory["intervals"]
         this.chordSymbols = chordSymbols
         this.chordSymbolList = this.genChordSymbolList()
@@ -55,11 +57,40 @@ export class Conversor {
         return rootNote
     }
 
-    chordToIntervals(chord : string) : {rootNote : Note,intervals : string[],error : string | null} {        
+    
+    applyAvoidNotes (intervals : string[]) {
+        let result : string[] = [...intervals]
+        for(const k in this.avoidNotes){
+            if(!result.includes(k)){
+                continue
+            }
+            this.avoidNotes[k].forEach(i => {
+                if(!result.includes(i)){
+                    return
+                }
+                result = result.filter(e => e !== i)
+            })
+        }
+        return result
+    }
+
+    chordToIntervals(chord : string,avoidNotes : boolean) : 
+    {
+        rootNote : Note,
+        intervals : string[],
+        error : string | null
+    } {        
         let chordFragments : string[] = []
 
         let rootNote : Note = this.getRootNote(chord)
         chord = chord.replace(rootNote,"")
+        if(chord.length == 0){
+            return {
+                rootNote : rootNote,
+                intervals : ["1","3","5"],
+                error : null
+            }
+        }
         chord = chord.toLocaleLowerCase()
         let set : {[key : string] : ChordSymbol} 
         for(const k in this.chordSymbols){
@@ -114,12 +145,16 @@ export class Conversor {
             }
         }
 
-        const intervals = []
+        let intervals = []
         this.chordLayoutSortedKeys.forEach(k => {
             if(chordLayout[k]){
                 intervals.push(chordLayout[k])
             }
         }) 
+
+        if(!avoidNotes){
+            intervals = this.applyAvoidNotes(intervals)
+        }
 
         return {intervals,rootNote,error : null}
     }

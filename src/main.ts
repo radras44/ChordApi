@@ -8,6 +8,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3000
   console.log(port)
   const app = await NestFactory.create(AppModule);
+  app.enableCors()
   const config = new DocumentBuilder()
     .setTitle('Chord-api')
     .setDescription('Description')

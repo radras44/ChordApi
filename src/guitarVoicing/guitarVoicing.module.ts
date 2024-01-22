@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { VoicingService } from './voicing.service';
-import { VoicingController } from './voicing.controller';
+import { VoicingService } from './guitarVoicing.service';
+import { VoicingController } from './guitarVoicing.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Voicing, VoicingSchema } from 'src/schemas/voicing.schema';
 import { VoicingConfig, VoicingConfigSchema } from 'src/schemas/voicingCFG.schema';

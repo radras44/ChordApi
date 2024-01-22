@@ -5,9 +5,11 @@ const guitarConversor = new GuitarConversor({
 
 describe("chordToIntervals",() => {
     it.each([
-        ["C13",["1","3","5","b7","9","11","13"]],
+        ["C13",["1","3","5","b7","9","13"]],
         ["Cm",["1","b3","5"]],
-        ["C13sus4b9",["1","4","5","b7","b9","11","13"]],
+        ["C",["1","3","5"]],
+        ["C6",["1","3","5","6"]],
+        ["C13sus4b9",["1","4","5","b7","b9","13"]],
         ["CmMaj9",["1","b3","5","7","9"]],
         ["Cm7b5",["1","b3","b5","b7"]],
         ["CMaj7",["1","3","5","7"]],
@@ -26,7 +28,7 @@ describe("chordToIntervals",() => {
         ["C7b9#11", ["1", "3", "5", "b7", "b9", "#11"]],
         ["Cm7b5b9", ["1", "b3", "b5", "b7", "b9"]]
     ])("should return correct intervals for %s",(chord,expected) => {
-        let result = guitarConversor.chordToIntervals(chord)
+        let result = guitarConversor.chordToIntervals(chord,false)
         console.log("to chord:",chord,"expect:",expected,"\nresult:",result,"\n======================>")
         expect(result.intervals).toEqual(expected)
     })

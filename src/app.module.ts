@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { VoicingModule } from './voicing/voicing.module';
+import { VoicingModule } from './guitarVoicing/guitarVoicing.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ClientMiddleware } from './middleware/client.middleware';
 
 console.log(process.env.MONGO_URI)
 @Module({
@@ -15,4 +16,9 @@ console.log(process.env.MONGO_URI)
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule{
+  configure(consumer: MiddlewareConsumer) {
+      consumer.apply(ClientMiddleware)
+      .forRoutes("guitarVoicing")
+  }
+}

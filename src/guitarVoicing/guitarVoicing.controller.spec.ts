@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { VoicingController } from './voicing.controller';
-import { VoicingService } from './voicing.service';
+import { VoicingController } from './guitarVoicing.controller';
+import { VoicingService } from './guitarVoicing.service';
 
 describe('VoicingController', () => {
   let controller: VoicingController;

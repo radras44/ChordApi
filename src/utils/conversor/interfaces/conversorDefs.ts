@@ -36,18 +36,20 @@ export interface GuitarPos {
     string : number
     fret : number
     interval? : string
+    text? : string
 }
 
 export interface VoicingConfig {
     tune: string
-    id: string
+    configID: string
     vStringSize : number
     vFretSize : number
     chord : string
     omits : string
+    avoidNotes : boolean
 }
 
-export interface Voicing {
+export interface VoicingDef {
     voicingConfig_id : string
     stringComb? : string
     root? : string
@@ -55,14 +57,16 @@ export interface Voicing {
     bassInterval? : string
     positions : GuitarPos[]
     fretRange : FretRange
-    voicingUID : string
 }
 
 export interface GetVoicingOps {
-    vStringSize : number,
+    vStringSize? : number,
     vFretSize : number,
     omits : string[],
     chordName : string
+    avoidNotes? : boolean
+    transportable? : boolean
+    stringComb? : string
 }
 
 export type Note =

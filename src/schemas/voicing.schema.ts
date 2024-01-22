@@ -6,8 +6,6 @@ export type VoicingDocument = HydratedDocument<Voicing>
 
 @Schema()
 export class Voicing {
-    @Prop({name : "voicingUID",required:true})
-    voicingUID : string
     @Prop({name : "voicingConfig_id",required : true})
     voicingConfig_id : string
     @Prop({name : "stringComb"})
@@ -22,6 +20,11 @@ export class Voicing {
     positions : string[]
     @Prop({type : Object,name : "fretRange",required : true})
     fretRange : FretRange
+    @Prop({name : "transportable"})
+    transportable : boolean
 }
 
 export const VoicingSchema = SchemaFactory.createForClass(Voicing)
+VoicingSchema.index({voicingConfig_id : 1,})
+VoicingSchema.index({transportable : 1})
+VoicingSchema.index({stringComb : 1,})
