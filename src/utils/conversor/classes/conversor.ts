@@ -88,7 +88,7 @@ export class Conversor extends AssetManager {
             }
         }
         if (chord.length > 0) {
-            return { rootNote: "A", intervals: [], error: `the chord contain not allowed symbols:${chord}` }
+            return { rootNote: "A", intervals: [], error: `the chord contains this unknown characters or symbols: ${chord}` }
         }
 
         let symbol: ChordSymbol

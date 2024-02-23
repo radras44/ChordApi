@@ -22,7 +22,7 @@ export class VoicingController {
       throw new BadRequestException("somthing bad happend", { description: error.message })
     }
 
-    const data = await this.voicingService.getByChord(ops)
+    const data = await this.voicingService.getByConfig(ops)
     return res.status(200).json({
       result: data.result
     })

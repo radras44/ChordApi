@@ -19,7 +19,7 @@ export class VoicingService extends GuitarConversor {
         })
     }
 
-    async getByChord(ops): Promise<{
+    async getByConfig(ops): Promise<{
         result: {
             length: number,
             voicings: VoicingDef[] | Voicing[],
@@ -28,6 +28,13 @@ export class VoicingService extends GuitarConversor {
         error: string | null
     }> {
         const decodedChord = this.chordToIntervals(ops.chordName, ops.avoidNotes)
+        if(decodedChord.error){
+            throw new BadRequestException("somthing bad happend",{description : decodedChord.error})
+        }
+        const minVoicingStrings = decodedChord.intervals.length - ops.omits.length
+        if(ops.stringComb && ops.stringComb.length < minVoicingStrings){
+            throw new BadRequestException("somthing bad happend",{description : `'${ops.chordName}' chord needs at least ${minVoicingStrings} strings, your string combination only has ${ops.stringComb.length}`})
+        }
         const result = this.getVoicings(decodedChord.rootNote, decodedChord.intervals, ops)
         if(result.error){
             throw new BadRequestException("somthing bad happend",{description : result.error})
